@@ -1,0 +1,70 @@
+<?php
+/**
+ * MageUp
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/AFL-3.0
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to mageup.info@gmail.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade MageUp ProductReviews to newer
+ * versions in the future. If you wish to customize MageUp ProductReviews for your
+ * needs please refer to http://www.mageup.com for more information.
+ *
+ * @category    design
+ * @copyright   Copyright (c) 2013 MageUp (http://www.mageup.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * @var $this MageUp_ProductReviews_Block_Catalog_Product_Review
+ */
+?>
+<?php if ($this->getReviewsCount()): ?>
+    <div class="ratings">
+        <?php if ($this->getRatingSummary()):?>
+            <div class="rating-box">
+                <div class="rating" style="width:<?php echo $this->getRatingSummary() ?>%"></div>
+            </div>
+        <?php endif;?>
+        <p class="rating-links">
+            <a href="<?php echo $this->getReviewsUrl() ?>"><?php echo $this->__('%d Review(s)', $this->getReviewsCount()) ?></a>
+            <span class="separator">|</span>
+            <a href="<?php echo $this->getReviewsUrl() ?>#review-form"><?php echo $this->__('Add Your Review') ?></a>
+        </p>
+    </div>
+<?php elseif ($this->getDisplayIfEmpty()): ?>
+    <p class="no-rating"><a href="<?php echo $this->getReviewsUrl() ?>#review-form"><?php echo $this->__('Be the first to review this product') ?></a></p>
+<?php endif; ?>
+<script type="text/javascript">
+    var linksContainer = $$('.product-shop .ratings .rating-links')[0];
+    if (typeof linksContainer != 'undefined') {
+        linksContainer.firstElementChild.onclick = function() {
+            new Effect.ScrollTo('productreviews-list', {duration:'0.5', offset: -5});
+            return false;
+        };
+        linksContainer.lastElementChild.onclick = function() {
+            new Effect.ScrollTo('productreviews-container', {duration:'0.5', offset: -20});
+            var detailField = $('detail');
+            if (typeof detailField != 'undefined' && detailField)
+                detailField.focus();
+            return false;
+        };
+    }
+
+    var noRatingLink = $$('.product-shop .no-rating a')[0];
+    if (typeof noRatingLink != 'undefined') {
+        noRatingLink.onclick = function() {
+            new Effect.ScrollTo('productreviews-list', {duration:'0.5', offset: -5});
+            return false;
+        };
+    }
+</script>

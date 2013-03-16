@@ -1,0 +1,156 @@
+<?php
+/**
+ * MageUp
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/AFL-3.0
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to mageup.info@gmail.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade MageUp ProductReviews to newer
+ * versions in the future. If you wish to customize MageUp ProductReviews for your
+ * needs please refer to http://www.mageup.com for more information.
+ *
+ * @category    design
+ * @copyright   Copyright (c) 2013 MageUp (http://www.mageup.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/** @var $this MageUp_ProductReviews_Block_Template */
+/** @var $product Mage_Catalog_Model_Product */
+$product = Mage::registry('current_product');
+$ratingEnabled = Mage::helper('productreviews')->isRatingEnabled();
+$loggedIn = Mage::helper('customer')->isLoggedIn() && Mage::helper('customer')->getCustomer();
+/** @var $helper MageUp_ProductReviews_Helper_Data */
+$helper = Mage::helper('productreviews');
+$types = array(
+    Mage_Core_Model_Message::ERROR,
+    Mage_Core_Model_Message::SUCCESS,
+);
+?>
+
+<?php
+/*
+ * Recaptcha library
+ */
+?>
+<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+
+<div class="productreviews" id="productreviews-container">
+    <h3><?php echo $this->__('Write Your Own Review')?></h3>
+    <ul class="messages" id="review-messages-container">
+        <?php foreach ($types as $type):?>
+        <li class="<?php echo $type?>-msg" style="display: none;">
+            <ul>
+                <li><span></span></li>
+            </ul>
+        </li>
+        <?php endforeach;?>
+    </ul>
+    <?php if (!$helper->isGuestAllowed() && !$loggedIn)://if Review is allowed for guests or customer is logged in?>
+    <a href="<?php echo Mage::getUrl('productreviews/customer/login', array(Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => Mage::helper('core/url')->getEncodedUrl()))?>"><?php echo $this->__('Please Log In to leave reviews.')?></a>
+    <?php else:?>
+    <form id="productreviews-form" name="productreviewsform" action="<?php echo Mage::getUrl('productreviews/product/submit')?>" method="post">
+        <input type="hidden" name="product_id" value="<?php echo $product->getId()?>"/>
+        <input type="hidden" name="parent_id" value="" id="parent_id"/>
+        <div class="nickname-container">
+            <?php if ($loggedIn): ?>
+            <input type="hidden" name="nickname" value="<?php echo Mage::helper('customer')->getCustomer()->getName() ?>"/>
+            <?php else: ?>
+            <label for="nickname" class="no-display"><?php echo $this->__('Nickname:')?></label>
+            <input type="text" name="nickname" id="nickname" class="input-text required-entry ui-corner-all"/>
+            <?php endif;?>
+        </div>
+        <div class="review-container">
+            <label for="detail" class="no-display"><?php echo $this->__('Review:')?></label>
+            <textarea rows="1" cols="40" name="detail" id="detail" class="required-entry ui-corner-all"></textarea>
+        </div>
+
+        <?php if ($ratingEnabled): ?>
+        <div class="rating-container">
+            <input type="hidden" name="rating" value="" id="rating"/>
+
+            <div id="rating-track" class="rating-wrapper"><div class="rating-value"></div></div>
+        </div>
+        <?php endif;?>
+        <div class="button-container">
+            <button type="submit" class="button" onclick="reviews.submit(); return false;"><span><span><?php echo $this->__('Submit')?></span></span></button>
+        </div>
+        <div id="recId" class="captcha-container"></div>
+        <div class="loader-small" id="create-loader" style="display: none;">
+            <img src="<?php echo $this->getSkinUrl('images/mageup/productreviews/loader-small.gif')?>"
+                 title="<?php echo $this->__('Please wait...')?>"
+                 alt="<?php echo $this->__('Please wait...')?>"/>
+        </div>
+    </form>
+    <?php endif;?>
+<!--    <h3 style="clear:both;">--><?php //echo $this->__('Customer Reviews')?><!--</h3>-->
+    <div id="productreviews-list"></div>
+    <button class="update-button ui-corner-all"
+            onclick="reviews.update()" id="update-reviews-button" style="display: none;">
+        <?php echo $this->__('Show more reviews')?>
+    </button>
+    <div class="loader-big" id="update-loader" style="display: none;">
+        <img src="<?php echo $this->getSkinUrl('images/mageup/productreviews/loader-big.gif')?>"
+             title="<?php echo $this->__('Please wait...')?>"
+             alt="<?php echo $this->__('Please wait...')?>"/>
+    </div>
+</div>
+<script type="text/javascript">
+    var updateUrl = '<?php echo Mage::getUrl('productreviews/product/reviews', array('product_id' => $product->getId()))?>';
+    var createUrl = '<?php echo Mage::getUrl('productreviews/product/submit')?>';
+    var ajaxEM = '<?php echo $this->__('There was an error processing AJAX. Please try again later.')?>';
+
+    var reviews = new ProductReviews('productreviews-form', 'productreviews-list', updateUrl, createUrl, <?php echo Zend_Json::encode($this->getChildHtml('review.mock'))?>, ajaxEM, 'review-error-message', 'review-success-message');
+    rCap = false;
+    <?php if (!$loggedIn && $helper->isGuestAllowed()): ?>
+    var nickNameField = new ProductReviews.Field('nickname', '<?php echo $this->__('Nickname')?>');
+    reviews.addField(nickNameField);
+    <?php endif;?>
+    <?php if (!$loggedIn && $helper->getCaptchaEnabledForGuests() && $helper->isGuestAllowed() ||
+        $loggedIn && $helper->getCaptchaEnabledForCustomers()
+    )://if Review is allowed for guests and Captcha is allowed for guests or customer is logged in and Captcha is allowed for Customers
+    /*
+    add Captcha - Recaptcha by default
+    */
+        $keys = $helper->getReCaptchaKeys();
+        ?>
+    if (typeof Recaptcha != 'undefined') {
+        var verifyUrl = '<?php echo Mage::getUrl('productreviews/product/verifyCaptcha')?>';
+        rCap = new ProductReviews.Captcha(Recaptcha, 'recId', '<?php echo $keys['public']?>', '<?php echo $keys['private']?>', 'clean', '<?php echo $_SERVER['REMOTE_ADDR']?>', verifyUrl);
+        reviews.addCaptcha(rCap, '<?php echo $this->__('Captcha error.')?>');
+    }
+    <?php endif;?>
+    <?php $limitChars = $helper->getLimitReviewChars();?>
+
+    <?php if ($loggedIn || $helper->isGuestAllowed())://if Review is allowed for guests or customer is logged in?>
+    var reviewField = new ProductReviews.Field('detail', '<?php echo $this->__('Leave a review...')?>', {
+        expand: true,
+        width: 678,
+        height:80,
+        captcha:rCap,
+        charNumber:<?php echo $limitChars?>,
+        errorMessage: '<?php echo $this->__('You have exceed %d symbols limit.', $limitChars)?>'
+    });
+    reviews.addField(reviewField);
+    <?php endif;?>
+    reviews.addCreateLoader('create-loader').addUpdateLoader('update-loader');
+    reviews.addReplyConfig('parent_id', "<?php echo $this->__("Reply to %s's review:", '#{value}')?>", '<?php echo $this->getSkinUrl('images/mageup/productreviews/close.png')?>', '<?php echo $this->__('Cancel Reply')?>');
+    /*
+    show first chunk of reviews at page load
+     */
+    Event.observe(window, 'load', function(){
+        reviews.update();
+    });
+    <?php if ($helper->isRatingEnabled() && ($loggedIn || $helper->isGuestAllowed())):?>
+    var rating = new ProductReviews.Rating('rating-track', 'rating', 'productreviews-form');
+    <?php endif;?>
+</script>
