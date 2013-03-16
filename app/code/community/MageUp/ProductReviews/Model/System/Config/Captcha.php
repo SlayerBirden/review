@@ -1,6 +1,6 @@
 <?php
 /**
- * MageUp
+ * MageUp ProductReviews module
  *
  * NOTICE OF LICENSE
  *

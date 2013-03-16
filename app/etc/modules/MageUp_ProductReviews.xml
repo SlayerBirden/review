@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * MageUp
+ * MageUp ProductReviews module
  *
  * NOTICE OF LICENSE
  *
@@ -19,7 +19,7 @@
  * versions in the future. If you wish to customize MageUp ProductReviews for your
  * needs please refer to http://www.mageup.com for more information.
  *
- * @category    design
+ * @category    etc
  * @copyright   Copyright (c) 2013 MageUp (http://www.mageup.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
