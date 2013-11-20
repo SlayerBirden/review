@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Maketok ProductReviews module
  *
@@ -19,16 +18,24 @@
  * versions in the future. If you wish to customize Maketok ProductReviews for your
  * needs please refer to http://www.maketok.com for more information.
  *
- * @category    etc
+ * @category    Maketok
+ * @package     Maketok_ProductReviews
  * @copyright   Copyright (c) 2013 Maketok (http://www.maketok.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
--->
-<config>
-    <modules>
-        <Maketok_ProductReviews>
-            <active>true</active>
-            <codePool>community</codePool>
-        </Maketok_ProductReviews>
-    </modules>
-</config>
+class Maketok_ProductReviews_Model_System_Config_Sidebar_Sort
+{
+    /**
+     * Options getter
+     *
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        return array(
+            array('value' => 0, 'label' => Mage::helper('productreviews')->__('Random')),
+            array('value' => 1, 'label' => Mage::helper('productreviews')->__('Latest')),
+            array('value' => 2, 'label' => Mage::helper('productreviews')->__('Most Popular')),
+        );
+    }
+}

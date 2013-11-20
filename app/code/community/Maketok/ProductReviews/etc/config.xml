@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Maketok ProductReviews module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/AFL-3.0
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to maketok.info@gmail.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Maketok ProductReviews to newer
+ * versions in the future. If you wish to customize Maketok ProductReviews for your
+ * needs please refer to http://www.maketok.com for more information.
+ *
+ * @category    Maketok
+ * @package     Maketok_ProductReviews
+ * @copyright   Copyright (c) 2013 Maketok (http://www.maketok.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Maketok_ProductReviews>
+            <version>1.0.0</version>
+        </Maketok_ProductReviews>
+    </modules>
+    <global>
+        <models>
+            <productreviews>
+                <class>Maketok_ProductReviews_Model</class>
+                <resourceModel>productreviews_resource</resourceModel>
+            </productreviews>
+            <productreviews_resource>
+                <class>Maketok_ProductReviews_Model_Resource</class>
+                <entities>
+                    <review>
+                        <table>maketok_review</table>
+                    </review>
+                    <rating>
+                        <table>maketok_rating</table>
+                    </rating>
+                    <vote>
+                        <table>maketok_review_vote</table>
+                    </vote>
+                    <ban>
+                        <table>maketok_review_ban</table>
+                    </ban>
+                </entities>
+            </productreviews_resource>
+            <catalog_resource_eav_mysql4>
+                <rewrite>
+                    <product_collection>Maketok_ProductReviews_Model_Resource_Product_Collection</product_collection>
+                </rewrite>
+            </catalog_resource_eav_mysql4>
+            <catalogsearch_mysql4>
+                <rewrite>
+                    <fulltext_collection>Maketok_ProductReviews_Model_Resource_Search_Product_Collection</fulltext_collection>
+                </rewrite>
+            </catalogsearch_mysql4>
+        </models>
+        <resources>
+            <productreviews_setup>
+                <setup>
+                    <module>Maketok_ProductReviews</module>
+                </setup>
+            </productreviews_setup>
+        </resources>
+        <helpers>
+            <productreviews>
+                <class>Maketok_ProductReviews_Helper</class>
+            </productreviews>
+        </helpers>
+        <blocks>
+            <productreviews>
+                <class>Maketok_ProductReviews_Block</class>
+            </productreviews>
+            <adminhtml>
+                <rewrite>
+                    <customer_edit_tab_reviews>Maketok_ProductReviews_Block_Adminhtml_Customer_Reviews</customer_edit_tab_reviews>
+                    <catalog_product_edit_tab_reviews>Maketok_ProductReviews_Block_Adminhtml_Catalog_Reviews</catalog_product_edit_tab_reviews>
+                </rewrite>
+            </adminhtml>
+            <review>
+                <rewrite>
+                    <helper>Maketok_ProductReviews_Block_Catalog_Product_Review</helper>
+                    <customer_recent>Maketok_ProductReviews_Block_Empty</customer_recent>
+                </rewrite>
+            </review>
+        </blocks>
+        <rewrite>
+            <productreviews_review>
+                <from><![CDATA[#^/review/product/list#]]></from>
+                <to>/productreviews/product/redirect</to>
+                <complete>true</complete>
+            </productreviews_review>
+            <productreviews_customer>
+                <from><![CDATA[#^/review/customer/#]]></from>
+                <to>/productreviews/product/redirect</to>
+                <complete>true</complete>
+            </productreviews_customer>
+        </rewrite>
+        <events>
+            <adminhtml_controller_action_predispatch_start>
+                <observers>
+                    <remove_adminhtml_menu_items>
+                        <class>productreviews/observer</class>
+                        <method>removeMenuItems</method>
+                    </remove_adminhtml_menu_items>
+                </observers>
+            </adminhtml_controller_action_predispatch_start>
+            <controller_front_init_routers>
+                <observers>
+                    <remove_adminhtml_menu_items>
+                        <class>productreviews/observer</class>
+                        <method>checkRewrites</method>
+                    </remove_adminhtml_menu_items>
+                </observers>
+            </controller_front_init_routers>
+        </events>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <productreviews>
+                    <file>productreviews.xml</file>
+                </productreviews>
+            </updates>
+        </layout>
+        <routers>
+            <productreviews>
+                <use>standard</use>
+                <args>
+                    <module>Maketok_ProductReviews</module>
+                    <frontName>productreviews</frontName>
+                </args>
+            </productreviews>
+        </routers>
+        <events>
+            <catalog_block_product_list_collection>
+                <observers>
+                    <review>
+                        <type>model</type>
+                        <class>productreviews/observer</class>
+                        <method>catalogBlockProductCollectionBeforeToHtml</method>
+                    </review>
+                </observers>
+            </catalog_block_product_list_collection>
+        </events>
+        <translate>
+            <modules>
+                <Maketok_ProductReviews>
+                    <files>
+                        <default>Maketok_ProductReviews.csv</default>
+                    </files>
+                </Maketok_ProductReviews>
+            </modules>
+        </translate>
+    </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <productreviews before="Mage_Adminhtml">Maketok_ProductReviews_Adminhtml</productreviews>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <maketok_checkout>
+                    <file>maketok/productreviews.xml</file>
+                </maketok_checkout>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Maketok_ProductReviews>
+                    <files>
+                        <default>Maketok_ProductReviews.csv</default>
+                    </files>
+                </Maketok_ProductReviews>
+            </modules>
+        </translate>
+    </adminhtml>
+    <default>
+        <productreviews>
+            <general>
+                <enabled>1</enabled>
+                <rating_enabled>1</rating_enabled>
+                <guest_allowed>1</guest_allowed>
+            </general>
+            <settings>
+                <auto_approve>0</auto_approve>
+                <limit_chars>1500</limit_chars>
+                <enable_captcha>1</enable_captcha>
+                <max_votes_down>5</max_votes_down>
+            </settings>
+            <sidebar>
+                <enable_sidebar>0</enable_sidebar>
+                <sort>0</sort>
+                <limit>3</limit>
+                <auto_update>2</auto_update>
+                <excerpt_length>200</excerpt_length>
+            </sidebar>
+        </productreviews>
+    </default>
+</config>

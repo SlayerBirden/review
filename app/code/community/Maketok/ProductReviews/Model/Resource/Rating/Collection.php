@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Maketok ProductReviews module
  *
@@ -19,16 +18,15 @@
  * versions in the future. If you wish to customize Maketok ProductReviews for your
  * needs please refer to http://www.maketok.com for more information.
  *
- * @category    etc
+ * @category    Maketok
+ * @package     Maketok_ProductReviews
  * @copyright   Copyright (c) 2013 Maketok (http://www.maketok.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
--->
-<config>
-    <modules>
-        <Maketok_ProductReviews>
-            <active>true</active>
-            <codePool>community</codePool>
-        </Maketok_ProductReviews>
-    </modules>
-</config>
+class Maketok_ProductReviews_Model_Resource_Rating_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+{
+    protected function _construct()
+    {
+        $this->_init('productreviews/rating');
+    }
+}

@@ -1,0 +1,41 @@
+<?php
+/**
+ * Maketok ProductReviews module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/AFL-3.0
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to maketok.info@gmail.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Maketok ProductReviews to newer
+ * versions in the future. If you wish to customize Maketok ProductReviews for your
+ * needs please refer to http://www.maketok.com for more information.
+ *
+ * @category    design
+ * @copyright   Copyright (c) 2013 Maketok (http://www.maketok.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/** @var $this Maketok_ProductReviews_Block_Template */
+?>
+<div class="review ui-corner-all" id="<?php echo $this->getNameInLayout()?>-review-id-#{review_id}">
+    <div class="rating-box right percent-#{percent}">
+        <div class="rating" style="width:#{percent}%"></div>
+    </div>
+    <span class="review-block product"><?php echo $this->__('For')?> <a href="#{product_url}">#{product_name}</a></span>
+    <span class="review-block detail"><a href="#{product_url}#review_id_#{review_id}">#{detail}</a></span>
+    <span class="review-block nickname left">#{nickname}</span>
+    <span class="review-bottom thumbs-up thumbs-up-#{thumbs_up} right"><span class="thumb-count">#{thumbs_up}</span><img
+            src="<?php echo $this->getSkinUrl('images/maketok/productreviews/like.png')?>"
+            alt="#{thumbs_up} <?php echo $this->__('Thumbs up')?>, #{thumbs_down} <?php echo $this->__('Thumb down')?>"
+            title="#{thumbs_up} <?php echo $this->__('Thumbs up')?>, #{thumbs_down} <?php echo $this->__('Thumb down')?>"/></span>
+    <span class="review-block created left">#{created_at}</span>
+</div>

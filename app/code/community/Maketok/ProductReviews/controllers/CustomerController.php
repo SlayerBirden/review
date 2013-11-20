@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Maketok ProductReviews module
  *
@@ -19,16 +18,23 @@
  * versions in the future. If you wish to customize Maketok ProductReviews for your
  * needs please refer to http://www.maketok.com for more information.
  *
- * @category    etc
+ * @category    Maketok
+ * @package     Maketok_ProductReviews
  * @copyright   Copyright (c) 2013 Maketok (http://www.maketok.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
--->
-<config>
-    <modules>
-        <Maketok_ProductReviews>
-            <active>true</active>
-            <codePool>community</codePool>
-        </Maketok_ProductReviews>
-    </modules>
-</config>
+class Maketok_ProductReviews_CustomerController extends Mage_Core_Controller_Front_Action
+{
+
+    public function loginAction()
+    {
+        /** @var $session Mage_Customer_Model_Session */
+        $encodedUrl = $this->getRequest()->getParam(Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED);
+        $url = Mage::helper('core')->urlDecode($encodedUrl);
+        $session = Mage::getSingleton('customer/session');
+        $session->setBeforeAuthUrl($url . '#productreviews-list');
+        $loginUrl = Mage::helper('customer')->getLoginUrl();
+        $this->_redirectUrl($loginUrl);
+    }
+
+}

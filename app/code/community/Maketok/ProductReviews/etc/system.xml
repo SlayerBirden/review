@@ -1,0 +1,219 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Maketok ProductReviews module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/AFL-3.0
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to maketok.info@gmail.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Maketok ProductReviews to newer
+ * versions in the future. If you wish to customize Maketok ProductReviews for your
+ * needs please refer to http://www.maketok.com for more information.
+ *
+ * @category    Maketok
+ * @package     Maketok_ProductReviews
+ * @copyright   Copyright (c) 2013 Maketok (http://www.maketok.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <sections>
+        <productreviews translate="label" module="productreviews">
+            <label>Maketok Product Reviews</label>
+            <tab>catalog</tab>
+            <class>maketok-section</class>
+            <frontend_type>text</frontend_type>
+            <sort_order>99</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label" module="productreviews">
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled translate="label" module="productreviews">
+                            <label>Enable module</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <rating_enabled translate="label" module="productreviews">
+                            <label>Enable Rating</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rating_enabled>
+                        <guest_allowed translate="label" module="productreviews">
+                            <label>Guests can leave a Review</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </guest_allowed>
+                    </fields>
+                </general>
+                <settings translate="label" module="productreviews">
+                    <label>Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <auto_approve translate="label,comment" module="productreviews">
+                            <label>Auto approve Reviews</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>New Reviews are Approved from the start</comment>
+                        </auto_approve>
+                        <limit_chars translate="label" module="productreviews">
+                            <label>Character limit for Review field</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </limit_chars>
+                        <max_votes_down translate="label,comment" module="productreviews">
+                            <label>Max Dislike count for Review</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The votes down number reaching which the post will be hidden.</comment>
+                        </max_votes_down>
+                    </fields>
+                </settings>
+                <sidebar translate="label" module="productreviews">
+                    <label>Sidebar Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enable_sidebar translate="label" module="productreviews">
+                            <label>Enable sidebar</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productreviews/system_config_sidebar</source_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable_sidebar>
+                        <sort translate="label,comment" module="productreviews">
+                            <label>Sort</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productreviews/system_config_sidebar_sort</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The rule for pulling the Reviews.</comment>
+                        </sort>
+                        <limit translate="label" module="productreviews">
+                            <label>How much Reviews to display</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </limit>
+                        <title translate="label,comment" module="productreviews">
+                            <label>The Sidebar block title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>If no title is specified, it will be created automatically.</comment>
+                        </title>
+                        <auto_update translate="label,comment" module="productreviews">
+                            <label>The auto update mode</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productreviews/system_config_sidebar_update</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Will work only with 'Latest' Reviews sorting mode.</comment>
+                        </auto_update>
+                        <excerpt_length translate="label" module="productreviews">
+                            <label>Excerpt symbols limit</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </excerpt_length>
+                    </fields>
+                </sidebar>
+                <captcha>
+                    <label>CAPTCHA Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>5</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <enable_captcha translate="label" module="productreviews">
+                            <label>Enable captcha</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productreviews/system_config_captcha</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable_captcha>
+                        <recaptcha_public_key translate="label,tooltip" module="productreviews">
+                            <label>reCAPTCHA library Public Key</label>
+                            <frontend_type>obscure</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[You can obtain Public and Private keys for the reCAPTCHA library by this url: <a target="_blank" href="https://www.google.com/recaptcha/admin/create">reCAPTCHA</a>]]></comment>
+                        </recaptcha_public_key>
+                        <recaptcha_private_key translate="label" module="productreviews">
+                            <label>reCAPTCHA library Private Key</label>
+                            <frontend_type>obscure</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </recaptcha_private_key>
+                    </fields>
+                </captcha>
+            </groups>
+        </productreviews>
+    </sections>
+</config>
